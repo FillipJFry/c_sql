@@ -1,4 +1,4 @@
-CREATE DATABASE megasoft;
+/* CREATE DATABASE megasoft; */
 
 CREATE TABLE worker(
  ID INTEGER AUTO_INCREMENT PRIMARY KEY,
@@ -7,16 +7,17 @@ CREATE TABLE worker(
  level ENUM('Trainee','Junior','Middle','Senior') NOT NULL,
  salary DECIMAL(8, 2) NOT NULL);
 
-ALTER TABLE worker ADD CONSTRAINT name_min_length CHECK 2 <= char_length(name);
-ALTER TABLE worker ADD CONSTRAINT birthday_lower_limit CHECK birthday >= '1901-01-01';
-ALTER TABLE worker ADD CONSTRAINT salary_range CHECK 100 < salary AND salary < 100000;
+ALTER TABLE worker ADD CONSTRAINT name_min_length CHECK (char_length(name) >= 2);
+ALTER TABLE worker ADD CONSTRAINT birthday_lower_limit CHECK (birthday >= '1901-01-01');
+ALTER TABLE worker ADD CONSTRAINT salary_range CHECK (100 < salary AND salary < 100000);
 
 CREATE TABLE client(
  id INTEGER AUTO_INCREMENT PRIMARY KEY,
- name TEXT(1000) NOT NULL CONSTRAINT name_min_length CHECK (2 <= char_length(name)));
+ name TEXT(1000) NOT NULL CONSTRAINT client_name_min_length CHECK (char_length(name) >= 2));
 
 CREATE TABLE project(
- id INTEGER AUTO_INCREMENT PRIMARY KEY,
+ id INTEGER NOT NULL PRIMARY KEY,
+ name VARCHAR(150) NOT NULL,
  client_id INTEGER NOT NULL,
  start_date DATE,
  finish_date DATE,
