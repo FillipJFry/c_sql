@@ -23,9 +23,10 @@ CREATE TABLE project(
  id INTEGER NOT NULL PRIMARY KEY,
  name VARCHAR(150) NOT NULL,
  client_id INTEGER NOT NULL,
- start_date DATE,
- finish_date DATE,
+ start_date DATE NOT NULL,
+ finish_date DATE NOT NULL,
  CONSTRAINT proj_dates_valid CHECK (start_date <= finish_date),
+ CONSTRAINT proj_duration CHECK (DATEDIFF(MONTH, start_date, finish_date) BETWEEN 1 AND 99),
  FOREIGN KEY(client_id) REFERENCES client(id));
 
 CREATE TABLE project_worker(
